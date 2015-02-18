@@ -36,30 +36,31 @@ camera_t* cogcCreate(matrix_t* pos, matrix_t* dir, matrix_t* up) {
 }
 
 /* Move the Camera based on key presses */
-camera_t* cogcMove(camera_t* c, bool up, bool down, bool left, bool right) {
+camera_t* cogcMove(camera_t* c, GLfloat delta, bool up, bool down, bool left, bool right) {
         matrix_t* temp;
+        GLfloat speed = delta;
 
         check(c, "NULL Camera given.");
 
         // Seperate ifs, since all could be pressed.
         if(up) {
-                coglMAdd(c->pos,c->dir);
+                temp = coglMCopy(c->dir);
+                coglMAdd(c->pos,coglMScale(temp,speed));
+                coglMDestroy(temp);
         }
         if(down) {
-                coglMSub(c->pos,c->dir);
+                temp = coglMCopy(c->dir);
+                coglMSub(c->pos,coglMScale(temp,speed));
+                coglMDestroy(temp);
         }
         if(left) {
                 temp = coglVNormalize(coglVCrossP(c->dir,c->up));
-
-                coglMSub(c->pos,temp);
-
+                coglMSub(c->pos,coglMScale(temp,speed));
                 coglMDestroy(temp);
         }
         if(right) {
                 temp = coglVNormalize(coglVCrossP(c->dir,c->up));
-
-                coglMAdd(c->pos,temp);
-
+                coglMAdd(c->pos,coglMScale(temp,speed));
                 coglMDestroy(temp);
         }
 
@@ -76,7 +77,7 @@ camera_t* cogcPan(camera_t* c, double xpos, double ypos) {
                 c->lastX = xpos;
                 c->lastY = ypos;
                 firstMouse = false;
-                return c;
+                //return c;
         }
 
         GLfloat xoffset = xpos - c->lastX;
@@ -85,17 +86,19 @@ camera_t* cogcPan(camera_t* c, double xpos, double ypos) {
         c->lastY = ypos;
 
         // Scale by mouse sensitivity factor
-        GLfloat sensitivity = 0.05f;
+        GLfloat sensitivity = 0.01f;
         xoffset *= sensitivity;
         yoffset *= sensitivity;
 
         // Update camera angles.
         c->yaw   += xoffset;
         c->pitch -= yoffset;
-        if(c->pitch > tau/4) {
-                c->pitch = 4 * tau / 17;
-        } else if(c->pitch < -tau/4) {
-                c->pitch = -4 * tau / 17;
+
+        // Max Pitch is tau/8
+        if(c->pitch > MAX_PITCH) {
+                c->pitch = MAX_PITCH;
+        } else if(c->pitch < -MAX_PITCH) {
+                c->pitch = -MAX_PITCH;
         }
 
         // Update Camera Direction Vector

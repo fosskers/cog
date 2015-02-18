@@ -7,6 +7,8 @@
 
 // --- //
 
+#define MAX_PITCH tau/6
+
 typedef struct camera_t {
         matrix_t* pos;  // Where is the Camera?
         matrix_t* dir;  // Where is it pointing?
@@ -28,7 +30,7 @@ typedef struct camera_t {
 camera_t* cogcCreate(matrix_t* pos, matrix_t* dir, matrix_t* up);
 
 /* Move the Camera based on key presses */
-camera_t* cogcMove(camera_t* c, bool up, bool down, bool left, bool right);
+camera_t* cogcMove(camera_t* c, GLfloat delta, bool up, bool down, bool left, bool right);
 
 /* Pan the Camera from some mouse movement */
 camera_t* cogcPan(camera_t* c, double xpos, double ypos);
