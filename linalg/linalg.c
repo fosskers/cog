@@ -217,19 +217,23 @@ void coglMSet(matrix_t* m, size_t col, size_t row, GLfloat f) {
 }
 
 /* Scale a Matrix by some scalar. If the Matrix is 4x4, resets the homo bit */
-void coglMScale(matrix_t* m, GLfloat f) {
+matrix_t* coglMScale(matrix_t* m, GLfloat f) {
         size_t i;
 
-        if(m) {
-                for(i = 0; i < m->cols * m->rows; i++) {
-                        m->m[i] *= f;
-                }
-
-                // Reset homo bit to 1.
-                if(m->cols == 4 && m->rows == 4) {
-                        coglMSet(m,3,3,1);
-                }
+        check(m, "Null Matrix given.");
+        
+        for(i = 0; i < m->cols * m->rows; i++) {
+                m->m[i] *= f;
         }
+
+        // Reset homo bit to 1.
+        if(m->cols == 4 && m->rows == 4) {
+                coglMSet(m,3,3,1);
+        }
+
+        return m;
+ error:
+        return NULL;
 }
 
 /* The values of m2 are added to m1 */

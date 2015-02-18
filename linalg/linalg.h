@@ -63,7 +63,7 @@ bool coglMEqual(matrix_t* m1, matrix_t* m2);
 void coglMSet(matrix_t* m, size_t col, size_t row, GLfloat f);
 
 /* Scale a Matrix by some scalar in place */
-void coglMScale(matrix_t* m, GLfloat f);
+matrix_t* coglMScale(matrix_t* m, GLfloat f);
 
 /* The values of m2 are added to m1 */
 matrix_t* coglMAdd(matrix_t* m1, matrix_t* m2);
