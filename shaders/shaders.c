@@ -82,7 +82,7 @@ GLuint cogsCompileShader(const GLchar* source, GLenum shaderType) {
         // Check for compilation success.
         glGetShaderiv(shader,GL_COMPILE_STATUS,&success);
         glGetShaderInfoLog(shader,512,NULL,infoLog);
-        check(success, "Shader failed to compile:\n%s\n", infoLog);
+        check(success, "Shader %s failed to compile:\n%s\n", source, infoLog);
 
         return shader;
  error:
