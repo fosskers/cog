@@ -18,6 +18,15 @@ typedef struct matrix_t {
 
 // --- VECTORS --- //
 
+/* Create a Vector with 2 values */
+matrix_t* coglV2(GLfloat f1, GLfloat f2);
+
+/* Create a Vector with 3 values */
+matrix_t* coglV3(GLfloat f1, GLfloat f2, GLfloat f3);
+
+/* Create a Vector with 4 values */
+matrix_t* coglV4(GLfloat f1, GLfloat f2, GLfloat f3, GLfloat f4);
+
 /* Create a Vector filled with zeros */
 matrix_t* coglVCreate(size_t size);
 

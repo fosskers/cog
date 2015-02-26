@@ -8,6 +8,27 @@
 
 // --- VECTORS --- //
 
+/* Create a Vector with 2 values */
+matrix_t* coglV2(GLfloat f1, GLfloat f2) {
+        GLfloat fs[] = {f1,f2};
+
+        return coglVFromArray(2,fs);
+}
+
+/* Create a Vector with 3 values */
+matrix_t* coglV3(GLfloat f1, GLfloat f2, GLfloat f3) {
+        GLfloat fs[] = {f1,f2,f3};
+
+        return coglVFromArray(3,fs);
+}
+
+/* Create a Vector with 4 values */
+matrix_t* coglV4(GLfloat f1, GLfloat f2, GLfloat f3, GLfloat f4) {
+        GLfloat fs[] = {f1,f2,f3,f4};
+
+        return coglVFromArray(4,fs);
+}
+
 /* Create a Vector filled with zeros */
 matrix_t* coglVCreate(size_t size) {
         return coglMCreate(1,size);
@@ -82,8 +103,6 @@ GLfloat coglVDotProduct(matrix_t* v1, matrix_t* v2) {
         for(i = 0; i < v1->rows; i++) {
                 total += v1->m[i] * v2->m[i];
         }
-
-        debug("DOT PRODUCT: %f",total);
 
         return total;
  error:
