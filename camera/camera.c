@@ -76,10 +76,10 @@ camera_t* cogcPan(camera_t* c, double xpos, double ypos) {
         if(firstMouse) {
                 c->lastX = xpos;
                 c->lastY = ypos;
-                firstMouse = false;
-                //return c;
         }
 
+        //debug("X: %f Y: %f", xpos, ypos);
+        
         GLfloat xoffset = xpos - c->lastX;
         GLfloat yoffset = c->lastY - ypos;
         c->lastX = xpos;
@@ -94,6 +94,15 @@ camera_t* cogcPan(camera_t* c, double xpos, double ypos) {
         c->yaw   += xoffset;
         c->pitch -= yoffset;
 
+        debug("YAW: %f", c->yaw);
+
+        // WHY. Why is yaw=0 the side of the box?
+        if(firstMouse) {
+                c->yaw = -tau/4;
+                c->pitch = 0;
+                firstMouse = false;
+        }
+        
         // Max Pitch is tau/8
         if(c->pitch > MAX_PITCH) {
                 c->pitch = MAX_PITCH;
