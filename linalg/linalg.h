@@ -94,7 +94,7 @@ matrix_t* coglM4Multiply(matrix_t* m1, matrix_t* m2);
 matrix_t* coglMMultiplyP(matrix_t* m1, matrix_t* m2);
 
 /* Transpose a Matrix. Returns a new Matrix. */
-matrix_t* coglMTranspose(matrix_t* m);
+matrix_t* coglMTransposeP(matrix_t* m);
 
 /* Rotate a 4x4 Matrix in place by `r` radians around the unit vector
 formed by `x` `y` and `z` */
@@ -112,6 +112,9 @@ matrix_t* coglMPerspectiveP(GLfloat fov, GLfloat aspr, GLfloat n, GLfloat f);
 
 /* Generate a View Matrix */
 matrix_t* coglM4LookAtP(matrix_t* camPos, matrix_t* target, matrix_t* up);
+
+/* Is a given Matrix 4x4? */
+bool coglM4Check(matrix_t* m);
 
 /* Deallocate a Matrix */
 void coglMDestroy(matrix_t* m);

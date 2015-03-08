@@ -386,7 +386,7 @@ matrix_t* coglMMultiplyP(matrix_t* m1, matrix_t* m2) {
 }
 
 /* Transpose a Matrix. Returns a new Matrix. */
-matrix_t* coglMTranspose(matrix_t* m) {
+matrix_t* coglMTransposeP(matrix_t* m) {
         matrix_t* newM = NULL;
         size_t i,j;
 
@@ -417,8 +417,7 @@ matrix_t* coglM4Rotate(matrix_t* m,GLfloat r,GLfloat x,GLfloat y,GLfloat z) {
                 0,0,0,1
         };
 
-        check(m, "Null Matrix given.");
-        check(m->cols == 4 && m->rows == 4, "Matrix not 4x4");
+        check(coglM4Check(m), "Matrix not 4x4");
 
         // To simply the Matrix below.
         GLfloat cosr = cos(r);
@@ -450,8 +449,7 @@ matrix_t* coglM4Rotate(matrix_t* m,GLfloat r,GLfloat x,GLfloat y,GLfloat z) {
 
 /* Adds translation factor to a transformation Matrix (in place) */
 matrix_t* coglM4Translate(matrix_t* m, GLfloat x, GLfloat y, GLfloat z) {
-        check(m, "Null Matrix given.");
-        check(m->cols == 4 && m->rows == 4, "Matrix isn't 4x4");
+        check(coglM4Check(m), "Matrix not 4x4");
 
         // Set translation values.
         m->m[12] = x;
@@ -549,6 +547,11 @@ matrix_t* coglM4LookAtP(matrix_t* camPos, matrix_t* target, matrix_t* up) {
         if(pos)      { coglMDestroy(pos);      }
 
         return NULL;
+}
+
+/* Is a given Matrix 4x4? */
+bool coglM4Check(matrix_t* m) {
+        return m && m->cols == 4 && m->rows == 4;
 }
 
 /* Deallocate a Matrix */
