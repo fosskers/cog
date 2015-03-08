@@ -22,6 +22,9 @@ typedef struct camera_t {
         // Last coordinates of the mouse.
         GLfloat lastX;
         GLfloat lastY;
+
+        // Has the user entered input?
+        bool firstMouse;
 } camera_t;
 
 // --- //

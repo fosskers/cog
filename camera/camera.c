@@ -29,6 +29,7 @@ camera_t* cogcCreate(matrix_t* pos, matrix_t* dir, matrix_t* up) {
         c->pitch = 0;
         c->lastX = 400;
         c->lastY = 300;
+        c->firstMouse = true;
         
         return c;
  error:
@@ -71,9 +72,7 @@ camera_t* cogcMove(camera_t* c, GLfloat delta, bool up, bool down, bool left, bo
 
 /* Pan the Camera from some mouse movement */
 camera_t* cogcPan(camera_t* c, double xpos, double ypos) {
-        static bool firstMouse = true;  // Don't touch.
-
-        if(firstMouse) {
+        if(c->firstMouse) {
                 c->lastX = xpos;
                 c->lastY = ypos;
         }
@@ -94,13 +93,13 @@ camera_t* cogcPan(camera_t* c, double xpos, double ypos) {
         c->yaw   += xoffset;
         c->pitch -= yoffset;
 
-        debug("YAW: %f", c->yaw);
+        //debug("YAW: %f", c->yaw);
 
         // WHY. Why is yaw=0 the side of the box?
-        if(firstMouse) {
+        if(c->firstMouse) {
                 c->yaw = -tau/4;
                 c->pitch = 0;
-                firstMouse = false;
+                c->firstMouse = false;
         }
         
         // Max Pitch is tau/8
