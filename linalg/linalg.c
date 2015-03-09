@@ -3,6 +3,7 @@
 
 #include "linalg.h"
 #include "../dbg.h"
+#include "../util.h"
 
 // --- //
 
@@ -461,12 +462,46 @@ matrix_t* coglM4Translate(matrix_t* m, GLfloat x, GLfloat y, GLfloat z) {
         return NULL;
 }
 
+/* Invert a 3x3 Matrix. Returns a new Matrix */
+matrix_t* coglM3InverseP(matrix_t* m) {
+        check(m, "Null Matrix given.");
+        check(m->cols == 3 && m->rows == 3, "Matrix not 3x3.");
+
+        // Scaling and Rotation
+        GLfloat a = m->m[0];
+        GLfloat b = m->m[3];
+        GLfloat c = m->m[6];
+        GLfloat d = m->m[1];
+        GLfloat e = m->m[4];
+        GLfloat f = m->m[7];
+        GLfloat g = m->m[2];
+        GLfloat h = m->m[5];
+        GLfloat i = m->m[8];
+
+        GLfloat fs[] = {
+                e*i-f*h, g*f-d*i, d*h-g*e,
+                h*c-i*b, a*i-g*c, g*b-a*h,
+                b*f-c*e, d*c-a*f, a*e-d*b
+        };
+
+        GLfloat det = a*e*i + b*f*g + c*d*h - g*e*c - h*f*a - i*d*b;
+
+        check(!isZero(det), "Determinant is zero -> %f", det);
+
+        matrix_t* newM = coglMScale(coglMFromArray(3,3,fs), 1/det);
+        check(newM, "Either Matrix creation or scaling failed.");
+
+        return newM;
+ error:
+        return NULL;
+}
+
 /* Invert a 4x4 Model Matrix which has some scaling, rotation
 and translation factor. Returns a new Matrix */
 matrix_t* coglM4ModelInverseP(matrix_t* m) {
         check(coglM4Check(m), "Matrix not 4x4");
 
-        // Scalaing and Rotation
+        // Scaling and Rotation
         GLfloat a = m->m[0];
         GLfloat b = m->m[4];
         GLfloat c = m->m[8];
@@ -490,6 +525,8 @@ matrix_t* coglM4ModelInverseP(matrix_t* m) {
         };
 
         GLfloat det = a*e*i + b*f*g + c*d*h - g*e*c - h*f*a - i*d*b;
+
+        check(!isZero(det), "Determinant is zero -> %f", det);
 
         matrix_t* newM = coglMScale(coglMFromArray(4,4,fs), 1/det);
         check(newM, "Either Matrix creation or scaling failed.");

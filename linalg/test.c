@@ -48,7 +48,7 @@ int main(int argc, char** argv) {
         printf("Equal? %d\n", coglMEqual(copy,sum));
 
         log_info("Transpose");
-        matrix_t* trans = coglMTranspose(prod);
+        matrix_t* trans = coglMTransposeP(prod);
         coglMPrint(trans);
 
         log_info("Rotating a Matrix");
@@ -72,6 +72,24 @@ int main(int argc, char** argv) {
         coglVNormalize(v);
         coglMPrint(v);
         printf("%f\n", coglVLength(v));
+
+        log_info("Matrix Inverse");
+        GLfloat invs[] = {
+                1,0,5,
+                2,1,6,
+                3,4,0
+        };
+        matrix_t* inv = coglM3InverseP(coglMFromArray(3,3,invs));
+        coglMPrint(inv);
+        puts("---");
+        GLfloat invs2[] = {
+                1,0,5,0,
+                2,1,6,0,
+                3,4,0,0,
+                0,0,0,1
+        };
+        matrix_t* inv2 = coglM4ModelInverseP(coglMFromArray(4,4,invs2));
+        coglMPrint(inv2);
         
         debug("Destroying Matrices...");
 
