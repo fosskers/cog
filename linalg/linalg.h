@@ -10,8 +10,8 @@
 
 typedef struct matrix_t {
         GLfloat* m;
-        size_t cols;
-        size_t rows;
+        GLuint cols;
+        GLuint rows;
 } matrix_t;
 
 // --- //
@@ -28,10 +28,10 @@ matrix_t* coglV3(GLfloat f1, GLfloat f2, GLfloat f3);
 matrix_t* coglV4(GLfloat f1, GLfloat f2, GLfloat f3, GLfloat f4);
 
 /* Create a Vector filled with zeros */
-matrix_t* coglVCreate(size_t size);
+matrix_t* coglVCreate(GLuint size);
 
 /* Create a Vector from a given array of floats */
-matrix_t* coglVFromArray(size_t size, GLfloat* fs);
+matrix_t* coglVFromArray(GLuint size, GLfloat* fs);
 
 /* The Cross-Product of two Vectors. Returns a new Vector. */
 matrix_t* coglVCrossP(matrix_t* v1, matrix_t* v2);
@@ -54,22 +54,22 @@ bool coglVIsVector(matrix_t* v);
 // --- MATRICES --- //
 
 /* Create a column-major Matrix of all 0s */
-matrix_t* coglMCreate(size_t cols, size_t rows);
+matrix_t* coglMCreate(GLuint cols, GLuint rows);
 
 /* Create a column-major Matrix from a given array of floats */
-matrix_t* coglMFromArray(size_t cols, size_t rows, GLfloat* fs);
+matrix_t* coglMFromArray(GLuint cols, GLuint rows, GLfloat* fs);
 
 /* Make a copy of a given Matrix */
 matrix_t* coglMCopy(matrix_t* m);
 
 /* Create an Identity Matrix of size `dim` */
-matrix_t* coglMIdentity(size_t dim);
+matrix_t* coglMIdentity(GLuint dim);
 
 /* Are two Matrices equal? */
 bool coglMEqual(matrix_t* m1, matrix_t* m2);
 
 /* Set a value in a Matrix */
-void coglMSet(matrix_t* m, size_t col, size_t row, GLfloat f);
+void coglMSet(matrix_t* m, GLuint col, GLuint row, GLfloat f);
 
 /* Scale a Matrix by some scalar in place */
 matrix_t* coglMScale(matrix_t* m, GLfloat f);

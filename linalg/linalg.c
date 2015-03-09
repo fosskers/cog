@@ -31,12 +31,12 @@ matrix_t* coglV4(GLfloat f1, GLfloat f2, GLfloat f3, GLfloat f4) {
 }
 
 /* Create a Vector filled with zeros */
-matrix_t* coglVCreate(size_t size) {
+matrix_t* coglVCreate(GLuint size) {
         return coglMCreate(1,size);
 }
 
 /* Create a Vector from a given array of floats */
-matrix_t* coglVFromArray(size_t size, GLfloat* fs) {
+matrix_t* coglVFromArray(GLuint size, GLfloat* fs) {
         return coglMFromArray(1,size,fs);
 }
 
@@ -62,7 +62,7 @@ matrix_t* coglVCrossP(matrix_t* v1, matrix_t* v2) {
 /* Normalize a Vector (reduce its length to 1) */
 matrix_t* coglVNormalize(matrix_t* v) {
         GLfloat len;
-        size_t i;
+        GLuint i;
 
         check(coglVIsVector(v), "Matrix given.");
 
@@ -80,7 +80,7 @@ matrix_t* coglVNormalize(matrix_t* v) {
 /* Yields the Length/Magnitude of a given Vector */
 GLfloat coglVLength(matrix_t* v) {
         GLfloat len = 0;
-        size_t i;
+        GLuint i;
 
         check(coglVIsVector(v), "Matrix given.");
 
@@ -96,7 +96,7 @@ GLfloat coglVLength(matrix_t* v) {
 /* Yields the Dot Product of two Vectors */
 GLfloat coglVDotProduct(matrix_t* v1, matrix_t* v2) {
         GLfloat total = 0;
-        size_t i;
+        GLuint i;
 
         check(coglVIsVector(v1) && coglVIsVector(v2), "Matrices given.");
         check(v1->rows == v2->rows, "Vectors aren't same length.");
@@ -127,10 +127,10 @@ bool coglVIsVector(matrix_t* v) {
 // --- MATRICES --- //
 
 /* Create a column-major matrix */
-matrix_t* coglMCreate(size_t cols, size_t rows) {
+matrix_t* coglMCreate(GLuint cols, GLuint rows) {
         matrix_t* m = NULL;
         GLfloat* innerM;
-        size_t i;
+        GLuint i;
 
         check(cols > 0 && rows > 0, "Bad dimensions given.");
 
@@ -157,9 +157,9 @@ matrix_t* coglMCreate(size_t cols, size_t rows) {
 }
 
 /* Create a column-major Matrix from a given array of floats */
-matrix_t* coglMFromArray(size_t cols, size_t rows, GLfloat* fs) {
+matrix_t* coglMFromArray(GLuint cols, GLuint rows, GLfloat* fs) {
         matrix_t* m = NULL;
-        size_t i;
+        GLuint i;
         
         check(fs, "Null float array given.");
         check(cols > 0 && rows > 0, "Bad sizes given.");
@@ -180,7 +180,7 @@ matrix_t* coglMFromArray(size_t cols, size_t rows, GLfloat* fs) {
 /* Make a copy of a given Matrix */
 matrix_t* coglMCopy(matrix_t* m) {
         matrix_t* newM = NULL;
-        size_t i;
+        GLuint i;
 
         check(m, "Can't copy a Null Matrix.");
 
@@ -197,7 +197,7 @@ matrix_t* coglMCopy(matrix_t* m) {
 }
 
 /* Create an Identity Matrix of size `dim` */
-matrix_t* coglMIdentity(size_t dim) {
+matrix_t* coglMIdentity(GLuint dim) {
         matrix_t* m = coglMCreate(dim,dim);
         unsigned int i;
 
@@ -214,7 +214,7 @@ matrix_t* coglMIdentity(size_t dim) {
 
 /* Are two Matrices equal? */
 bool coglMEqual(matrix_t* m1, matrix_t* m2) {
-        size_t i;
+        GLuint i;
 
         check(m1 && m2, "Null Matrices given.");
         check(m1->cols == m2->cols && m1->rows == m2->rows,
@@ -230,7 +230,7 @@ bool coglMEqual(matrix_t* m1, matrix_t* m2) {
 }
 
 /* Set a value in a Matrix */
-void coglMSet(matrix_t* m, size_t col, size_t row, GLfloat f) {
+void coglMSet(matrix_t* m, GLuint col, GLuint row, GLfloat f) {
         if(m && m->cols >= col && m->rows >= row) {
                 m->m[m->rows * col + row] = f;
         }
@@ -238,7 +238,7 @@ void coglMSet(matrix_t* m, size_t col, size_t row, GLfloat f) {
 
 /* Scale a Matrix by some scalar. If the Matrix is 4x4, resets the homo bit */
 matrix_t* coglMScale(matrix_t* m, GLfloat f) {
-        size_t i;
+        GLuint i;
 
         check(m, "Null Matrix given.");
         
@@ -258,7 +258,7 @@ matrix_t* coglMScale(matrix_t* m, GLfloat f) {
 
 /* The values of m2 are added to m1 */
 matrix_t* coglMAdd(matrix_t* m1, matrix_t* m2) {
-        size_t i;
+        GLuint i;
 
         check(m1 && m2, "Null Matrices given.");
         check(m1->cols == m2->cols && m1->rows == m2->rows,
@@ -291,7 +291,7 @@ matrix_t* coglMAddP(matrix_t* m1, matrix_t* m2) {
 
 /* Subtract two same-sized Matrices */
 matrix_t* coglMSub(matrix_t* m1, matrix_t* m2) {
-        size_t i;
+        GLuint i;
 
         check(m1 && m2, "Null Matrices given.");
         check(m1->cols == m2->cols && m1->rows == m2->rows,
@@ -325,7 +325,7 @@ matrix_t* coglMSubP(matrix_t* m1, matrix_t* m2) {
 /* Multiply two 4x4 matrices together in place. Affects `m1`. */
 matrix_t* coglM4Multiply(matrix_t* m1, matrix_t* m2) {
         static GLfloat fs[16];
-        size_t i,j,k;
+        GLuint i,j,k;
 
         // Were the matrices given valid?
         check(m1 && m2, "Null matrices given.");
@@ -359,7 +359,7 @@ matrix_t* coglM4Multiply(matrix_t* m1, matrix_t* m2) {
    the number of columns of m1. Returns a new Matrix. */
 matrix_t* coglMMultiplyP(matrix_t* m1, matrix_t* m2) {
         matrix_t* newM = NULL;
-        size_t i,j,k;
+        GLuint i,j,k;
 
         // Were the matrices given valid?
         check(m1 && m2, "Null matrices given.");
@@ -389,7 +389,7 @@ matrix_t* coglMMultiplyP(matrix_t* m1, matrix_t* m2) {
 /* Transpose a Matrix. Returns a new Matrix. */
 matrix_t* coglMTransposeP(matrix_t* m) {
         matrix_t* newM = NULL;
-        size_t i,j;
+        GLuint i,j;
 
         check(m, "Null Matrix given.");
 
@@ -643,7 +643,7 @@ void coglMDestroy(matrix_t* m) {
 
 /* Print a Matrix */
 void coglMPrint(matrix_t* m) {
-        size_t i,j;
+        GLuint i,j;
 
         if(m) {
                 for(i = 0; i < m->rows; i++) {
@@ -660,7 +660,7 @@ void coglMPrint(matrix_t* m) {
 
 /* Print Matrix values in their internal order */
 void coglMPrintLinear(matrix_t* m) {
-        size_t i;
+        GLuint i;
 
         if(m) {
                 for(i = 0; i < (m->rows * m->cols); i++) {
