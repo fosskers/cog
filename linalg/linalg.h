@@ -103,6 +103,10 @@ matrix_t* coglM4Rotate(matrix_t* m,GLfloat r,GLfloat x,GLfloat y,GLfloat z);
 /* Adds translation factor to a transformation Matrix (in place) */
 matrix_t* coglM4Translate(matrix_t* m, GLfloat x, GLfloat y, GLfloat z);
 
+/* Invert a 4x4 Model Matrix which has some scaling, rotation
+and translation factor. Returns a new Matrix */
+matrix_t* coglM4ModelInverseP(matrix_t* m);
+
 /* Produces a Perspective Projection Matrix.
    fov  := Field of View. Vertical eye angle, usually (tau/8).
    aspr := Aspect Ratio. Screen (width/height).

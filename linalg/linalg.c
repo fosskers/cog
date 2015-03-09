@@ -461,6 +461,48 @@ matrix_t* coglM4Translate(matrix_t* m, GLfloat x, GLfloat y, GLfloat z) {
         return NULL;
 }
 
+/* Invert a 4x4 Model Matrix which has some scaling, rotation
+and translation factor. Returns a new Matrix */
+matrix_t* coglM4ModelInverseP(matrix_t* m) {
+        check(coglM4Check(m), "Matrix not 4x4");
+
+        // Scalaing and Rotation
+        GLfloat a = m->m[0];
+        GLfloat b = m->m[4];
+        GLfloat c = m->m[8];
+        GLfloat d = m->m[1];
+        GLfloat e = m->m[5];
+        GLfloat f = m->m[9];
+        GLfloat g = m->m[2];
+        GLfloat h = m->m[6];
+        GLfloat i = m->m[10];
+
+        // Translation factors
+        GLfloat t1 = m->m[12];
+        GLfloat t2 = m->m[13];
+        GLfloat t3 = m->m[14];
+
+        GLfloat fs[] = {
+                e*i-f*h, g*f-d*i, d*h-g*e, 0,
+                h*c-i*b, a*i-g*c, g*b-a*h, 0,
+                b*f-c*e, d*c-a*f, a*e-d*b, 0,
+                0,0,0,1
+        };
+
+        GLfloat det = a*e*i + b*f*g + c*d*h - g*e*c - h*f*a - i*d*b;
+
+        matrix_t* newM = coglMScale(coglMFromArray(4,4,fs), 1/det);
+        check(newM, "Either Matrix creation or scaling failed.");
+
+        newM->m[12] *= -t1;
+        newM->m[13] *= -t2;
+        newM->m[14] *= -t3;
+        
+        return newM;
+ error:
+        return NULL;
+}
+
 /* Produces a Perspective Projection Matrix.
    fov  := Field of View. Vertical eye angle, usually (tau/8).
    aspr := Aspect Ratio. Screen (width/height).
