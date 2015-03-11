@@ -650,7 +650,7 @@ void coglMPrint(matrix_t* m) {
                         printf("[ ");
 
                         for(j = 0; j < m->cols; j++) {
-                                printf("%.2f ", m->m[m->rows * j + i]);
+                                printf("%.4f ", m->m[m->rows * j + i]);
                         }
 
                         printf("]\n");
