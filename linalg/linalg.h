@@ -7,6 +7,7 @@
 // --- //
 
 #define tau 6.283185
+#define E 0.000001
 
 typedef struct matrix_t {
         GLfloat* m;
@@ -134,5 +135,10 @@ void coglMPrint(matrix_t* m);
 
 /* Print Matrix values in their internal order */
 void coglMPrintLinear(matrix_t* m);
+
+// --- MISC --- //
+
+/* Is a given float essentially zero? */
+bool isZero(GLfloat f);
 
 #endif

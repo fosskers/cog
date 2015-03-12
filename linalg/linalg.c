@@ -3,7 +3,6 @@
 
 #include "linalg.h"
 #include "../dbg.h"
-#include "../util.h"
 
 // --- //
 
@@ -688,4 +687,11 @@ void coglMPrintLinear(matrix_t* m) {
                         printf("%.2f\n", m->m[i]);
                 }
         }
+}
+
+// --- MISC --- //
+
+/* Is a given float essentially zero? */
+bool isZero(GLfloat f) {
+        return (f > 0 && f < E) || (f < 0 && f > -E);
 }
