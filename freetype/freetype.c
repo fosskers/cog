@@ -31,7 +31,7 @@ ftchar_t** cogfAllAscii(FT_Face f) {
         ftchar_t* curr;
         ftchar_t** all;
 
-        all = malloc(sizeof(long) * 128);
+        all = malloc(sizeof(ftchar_t*) * 128);
         check_mem(all);
         
         glPixelStorei(GL_UNPACK_ALIGNMENT,1);
@@ -65,7 +65,24 @@ ftchar_t** cogfAllAscii(FT_Face f) {
                 all[i] = curr;
         }
 
+        glBindTexture(GL_TEXTURE_2D,0);
+
         return all;
  error:
         return NULL;
+}
+
+/* Print Glyph data */
+void cogfPrint(ftchar_t* c) {
+        check(c, "Null data given.");
+
+        printf("%c (%d,%d) (%d,%d) adv=%d\n",
+               c->c,
+               c->sizeX,
+               c->sizeY,
+               c->bearingX,
+               c->bearingY,
+               c->advance);
+ error:
+        return;
 }

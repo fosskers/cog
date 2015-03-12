@@ -23,4 +23,7 @@ ftchar_t* cogfCreate(GLchar c, GLint id, GLint sx, GLint sy, GLint bx, GLint by,
 /* A list of all ASCII chars and their Glyph data */
 ftchar_t** cogfAllAscii(FT_Face f);
 
+/* Print Glyph data */
+void cogfPrint(ftchar_t*);
+
 #endif
