@@ -569,6 +569,27 @@ matrix_t* coglMPerspectiveP(GLfloat fov, GLfloat aspr, GLfloat n, GLfloat f) {
         return NULL;
 }
 
+/* Produces an Orthographic Projection Matrix */
+matrix_t* coglMOrthoP(GLfloat l,GLfloat r,GLfloat b,GLfloat t,GLfloat n,GLfloat f) {
+        matrix_t* m = NULL;
+
+        check(n < f, "Near-clipping plane farther than far-clipping plane!");
+
+        GLfloat fs[16] = {
+                2/(r-l), 0, 0, 0,
+                0, 2/(t-b), 0, 0,
+                0, 0, -2/(f-n), 0,
+                -(r+l)/(r-l), -(t+b)/(t-b), -(f+n)/(f-n), 1
+        };
+
+        m = coglMFromArray(4,4,fs);
+        check(m, "Could not create Orthogonal Matrix.");
+
+        return m;
+ error:
+        return NULL;
+}
+
 /* Generate a View Matrix */
 matrix_t* coglM4LookAtP(matrix_t* camPos, matrix_t* target, matrix_t* up) {
         matrix_t* view     = NULL;

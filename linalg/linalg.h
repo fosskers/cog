@@ -117,6 +117,9 @@ matrix_t* coglM4ModelInverseP(matrix_t* m);
    f    := Distance from camera to far-clipping plane. */
 matrix_t* coglMPerspectiveP(GLfloat fov, GLfloat aspr, GLfloat n, GLfloat f);
 
+/* Produces an Orthographic Projection Matrix */
+matrix_t* coglMOrthoP(GLfloat l,GLfloat r,GLfloat b,GLfloat t,GLfloat n,GLfloat f);
+
 /* Generate a View Matrix */
 matrix_t* coglM4LookAtP(matrix_t* camPos, matrix_t* target, matrix_t* up);
 
