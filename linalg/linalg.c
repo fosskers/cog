@@ -288,6 +288,42 @@ matrix_t* coglMAddP(matrix_t* m1, matrix_t* m2) {
         return NULL;
 }
 
+/* Sum any number of same-dimension matrices together */
+matrix_t* coglMSumsP(matrix_t** ms, GLuint len) {
+        matrix_t* newM = NULL;
+        GLuint i,j;
+        GLuint rows,cols;
+        GLfloat sum;
+
+        check(ms, "Null list of Matrices given.");
+        rows = ms[0]->rows;
+        cols = ms[0]->cols;
+
+        for(j = 0; j < len; j++) {
+                check(ms[j], "Null Matrix within list given.");
+                check(ms[j]->rows == rows && ms[j]->cols == cols,
+                      "Matrix of mismatched size given.");
+        }
+
+        newM = coglMCreate(cols, rows);
+        check(newM, "Matrix creation failed.");
+
+        /* Add all Matrices together */
+        for(i = 0; i < rows * cols; i++) {
+                sum = 0;
+
+                for(j = 0; j < len; j++) {
+                        sum += ms[j]->m[i];
+                }
+
+                newM->m[i] = sum;
+        }
+
+        return newM;
+ error:
+        return NULL;
+}
+
 /* Subtract two same-sized Matrices */
 matrix_t* coglMSub(matrix_t* m1, matrix_t* m2) {
         GLuint i;

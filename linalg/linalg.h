@@ -81,6 +81,9 @@ matrix_t* coglMAdd(matrix_t* m1, matrix_t* m2);
 /* Add two same-sized Matrices together. Returns a new Matrix. */
 matrix_t* coglMAddP(matrix_t* m1, matrix_t* m2);
 
+/* Sum any number of same-dimension matrices together */
+matrix_t* coglMSumsP(matrix_t** ms, GLuint len);
+
 /* Subtract two same-sized Matrices */
 matrix_t* coglMSub(matrix_t* m1, matrix_t* m2);
 
