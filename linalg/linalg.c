@@ -255,6 +255,11 @@ matrix_t* coglMScale(matrix_t* m, GLfloat f) {
         return NULL;
 }
 
+/* Scale a Matrix by some scalar. Returns a new Matrix. */
+matrix_t* coglMScaleP(matrix_t* m, GLfloat f) {
+        return coglMScale(coglMCopy(m), f);
+}
+
 /* The values of m2 are added to m1 */
 matrix_t* coglMAdd(matrix_t* m1, matrix_t* m2) {
         GLuint i;

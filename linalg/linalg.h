@@ -75,6 +75,9 @@ void coglMSet(matrix_t* m, GLuint col, GLuint row, GLfloat f);
 /* Scale a Matrix by some scalar in place */
 matrix_t* coglMScale(matrix_t* m, GLfloat f);
 
+/* Scale a Matrix by some scalar. Returns a new Matrix. */
+matrix_t* coglMScaleP(matrix_t* m, GLfloat f);
+
 /* The values of m2 are added to m1 */
 matrix_t* coglMAdd(matrix_t* m1, matrix_t* m2);
 
