@@ -636,7 +636,7 @@ matrix_t* coglM4LookAtP(matrix_t* camPos, matrix_t* target, matrix_t* up) {
         matrix_t* camDir   = NULL;
         matrix_t* camRight = NULL;
         matrix_t* camUp    = NULL;
-        matrix_t* pos      = NULL;
+        matrix_t* neg_pos  = NULL;
 
         check(camPos && target && up, "Null Vectors given.");
         check(coglVIsVector(camPos) &&
@@ -667,24 +667,22 @@ matrix_t* coglM4LookAtP(matrix_t* camPos, matrix_t* target, matrix_t* up) {
         view->m[10] = camDir->m[2];
 
         // Column 4
-        pos = coglMCopy(camPos);
-        check(pos, "`camPos` Matrix copy failed.");
-        coglMScale(pos, -1);
-        view->m[12] = pos->m[0];
-        view->m[13] = pos->m[1];
-        view->m[14] = pos->m[2];
+        neg_pos = coglMScaleP(camPos, -1);
+        view->m[12] = coglVDotProduct(neg_pos, camRight);
+        view->m[13] = coglVDotProduct(neg_pos, camUp);
+        view->m[14] = coglVDotProduct(neg_pos, camDir);
 
         coglMDestroy(camDir);
         coglMDestroy(camRight);
         coglMDestroy(camUp);
-        coglMDestroy(pos);
+        coglMDestroy(neg_pos);
 
         return view;
  error:
         if(camDir)   { coglMDestroy(camDir);   }
         if(camRight) { coglMDestroy(camRight); }
         if(camUp)    { coglMDestroy(camUp);    }
-        if(pos)      { coglMDestroy(pos);      }
+        if(neg_pos)  { coglMDestroy(neg_pos);  }
 
         return NULL;
 }
