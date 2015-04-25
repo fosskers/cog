@@ -7,7 +7,7 @@
 // --- //
 
 #define tau 6.283185
-#define E 0.000001
+#define E 0.000001  // Epsilon. A measure of error in Float arithmetic.
 
 typedef struct matrix_t {
         GLfloat* m;
