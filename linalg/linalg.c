@@ -12,21 +12,21 @@
 matrix_t* coglV2(GLfloat f1, GLfloat f2) {
         GLfloat fs[] = {f1,f2};
 
-        return coglVFromArray(2,fs);
+        return coglVFromArrayP(2,fs);
 }
 
 /* Create a Vector with 3 values */
 matrix_t* coglV3(GLfloat f1, GLfloat f2, GLfloat f3) {
         GLfloat fs[] = {f1,f2,f3};
 
-        return coglVFromArray(3,fs);
+        return coglVFromArrayP(3,fs);
 }
 
 /* Create a Vector with 4 values */
 matrix_t* coglV4(GLfloat f1, GLfloat f2, GLfloat f3, GLfloat f4) {
         GLfloat fs[] = {f1,f2,f3,f4};
 
-        return coglVFromArray(4,fs);
+        return coglVFromArrayP(4,fs);
 }
 
 /* Create a Vector filled with zeros */
@@ -35,8 +35,8 @@ matrix_t* coglVCreate(GLuint size) {
 }
 
 /* Create a Vector from a given array of floats */
-matrix_t* coglVFromArray(GLuint size, GLfloat* fs) {
-        return coglMFromArray(1,size,fs);
+matrix_t* coglVFromArrayP(GLuint size, GLfloat* fs) {
+        return coglMFromArrayP(1,size,fs);
 }
 
 /* The Cross-Product of two Vectors. Returns a new Vector. */
@@ -110,8 +110,8 @@ GLfloat coglVDotProduct(matrix_t* v1, matrix_t* v2) {
 }
 
 /* Are two Vectors orthogonal? */
-bool coglVIsOrtho(matrix_t* v1, matrix_t* v2) {
-        return coglVDotProduct(v1,v2) <= 0.000001;
+bool coglVAreOrtho(matrix_t* v1, matrix_t* v2) {
+        return coglVDotProduct(v1,v2) <= E;
 }
 
 /* Is a given Matrix struct actually a Vector? */
@@ -156,7 +156,7 @@ matrix_t* coglMCreate(GLuint cols, GLuint rows) {
 }
 
 /* Create a column-major Matrix from a given array of floats */
-matrix_t* coglMFromArray(GLuint cols, GLuint rows, GLfloat* fs) {
+matrix_t* coglMFromArrayP(GLuint cols, GLuint rows, GLfloat* fs) {
         matrix_t* m = NULL;
         GLuint i;
         
@@ -528,7 +528,7 @@ matrix_t* coglM3InverseP(matrix_t* m) {
 
         check(!isZero(det), "Determinant is zero -> %f", det);
 
-        matrix_t* newM = coglMScale(coglMFromArray(3,3,fs), 1/det);
+        matrix_t* newM = coglMScale(coglMFromArrayP(3,3,fs), 1/det);
         check(newM, "Either Matrix creation or scaling failed.");
 
         return newM;
@@ -568,7 +568,7 @@ matrix_t* coglM4ModelInverseP(matrix_t* m) {
 
         check(!isZero(det), "Determinant is zero -> %f", det);
 
-        matrix_t* newM = coglMScale(coglMFromArray(4,4,fs), 1/det);
+        matrix_t* newM = coglMScale(coglMFromArrayP(4,4,fs), 1/det);
         check(newM, "Either Matrix creation or scaling failed.");
 
         newM->m[12] *= -t1;
@@ -601,7 +601,7 @@ matrix_t* coglMPerspectiveP(GLfloat fov, GLfloat aspr, GLfloat n, GLfloat f) {
                 0, 0, (-2*f*n)/(f-n), 0
         };
 
-        m = coglMFromArray(4,4,fs);
+        m = coglMFromArrayP(4,4,fs);
         check(m, "Could not create Perspective Matrix.");
 
         return m;
@@ -622,7 +622,7 @@ matrix_t* coglMOrthoP(GLfloat l,GLfloat r,GLfloat b,GLfloat t,GLfloat n,GLfloat 
                 -(r+l)/(r-l), -(t+b)/(t-b), -(f+n)/(f-n), 1
         };
 
-        m = coglMFromArray(4,4,fs);
+        m = coglMFromArrayP(4,4,fs);
         check(m, "Could not create Orthogonal Matrix.");
 
         return m;

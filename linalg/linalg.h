@@ -32,7 +32,7 @@ matrix_t* coglV4(GLfloat f1, GLfloat f2, GLfloat f3, GLfloat f4);
 matrix_t* coglVCreate(GLuint size);
 
 /* Create a Vector from a given array of floats */
-matrix_t* coglVFromArray(GLuint size, GLfloat* fs);
+matrix_t* coglVFromArrayP(GLuint size, GLfloat* fs);
 
 /* The Cross-Product of two Vectors. Returns a new Vector. */
 matrix_t* coglVCrossP(matrix_t* v1, matrix_t* v2);
@@ -47,7 +47,7 @@ GLfloat coglVLength(matrix_t* v);
 GLfloat coglVDotProduct(matrix_t* v1, matrix_t* v2);
 
 /* Are two Vectors orthogonal? */
-bool coglVIsOrtho(matrix_t* v1, matrix_t* v2);
+bool coglVAreOrtho(matrix_t* v1, matrix_t* v2);
 
 /* Is a given Matrix struct actually a Vector? */
 bool coglVIsVector(matrix_t* v);
@@ -58,7 +58,7 @@ bool coglVIsVector(matrix_t* v);
 matrix_t* coglMCreate(GLuint cols, GLuint rows);
 
 /* Create a column-major Matrix from a given array of floats */
-matrix_t* coglMFromArray(GLuint cols, GLuint rows, GLfloat* fs);
+matrix_t* coglMFromArrayP(GLuint cols, GLuint rows, GLfloat* fs);
 
 /* Make a copy of a given Matrix */
 matrix_t* coglMCopy(matrix_t* m);
