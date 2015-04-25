@@ -45,13 +45,13 @@ camera_t* cogcMove(camera_t* c, GLfloat delta, bool up, bool down, bool left, bo
 
         // Seperate ifs, since all could be pressed.
         if(up) {
-                temp = coglMCopy(c->dir);
-                coglMAdd(c->pos,coglMScale(temp,speed));
+                temp = coglMScaleP(c->dir,speed);
+                coglMAdd(c->pos,temp);
                 coglMDestroy(temp);
         }
         if(down) {
-                temp = coglMCopy(c->dir);
-                coglMSub(c->pos,coglMScale(temp,speed));
+                temp = coglMScaleP(c->dir,speed);
+                coglMSub(c->pos,temp);
                 coglMDestroy(temp);
         }
         if(left) {
